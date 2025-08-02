@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BillPal NG | Smart Bill Management & Savings</title>
+    <title>Global BillPal | Smart Bill Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
@@ -15,9 +15,11 @@
             --accent: #ff6b6b;
             --dark: #1a1a2e;
             --light: #f8f9fa;
+            --card-bg: #ffffff;
+            --sidebar-bg: #f0f4ff;
             --gradient: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --card-radius: 20px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --card-radius: 16px;
             --transition: all 0.3s ease;
         }
         
@@ -29,210 +31,324 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+            background: linear-gradient(135deg, #f8faff 0%, #f0f5ff 100%);
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(67, 97, 238, 0.03)"/></svg>');
-            background-size: cover;
-            z-index: -1;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* Header */
-        header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
         }
         
         .logo {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 40px;
+            padding: 0 15px;
         }
         
         .logo-icon {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             background: var(--gradient);
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 22px;
             box-shadow: var(--shadow);
         }
         
         .logo-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .nav-buttons {
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            color: #555;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .nav-link i {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-link.active {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 40px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .header-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .header-actions {
             display: flex;
             gap: 15px;
         }
         
-        .nav-btn {
+        .btn {
             padding: 12px 25px;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .login-btn {
+        .btn-outline {
             background: transparent;
             color: var(--primary);
             border: 2px solid var(--primary);
         }
         
-        .signup-btn {
+        .btn-primary {
             background: var(--gradient);
             color: white;
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
         
-        .nav-btn:hover {
+        .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
         }
         
-        .hero {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 50px;
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
         }
         
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .hero p {
-            font-size: 1.4rem;
-            color: #555;
-            margin-bottom: 30px;
+        .tab-content.active {
+            display: block;
         }
         
-        .hero-buttons {
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-header {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
         
-        .btn {
-            padding: 18px 35px;
-            border-radius: 50px;
+        .stat-title {
             font-size: 1.1rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
+            color: #777;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            border: none;
-        }
-        
-        .primary-btn {
-            background: var(--gradient);
+            justify-content: center;
             color: white;
-            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+            font-size: 20px;
+            background: var(--gradient);
         }
         
-        .secondary-btn {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark);
         }
         
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.5);
+        .stat-change {
+            font-size: 0.9rem;
+            color: #06d6a0;
+            font-weight: 600;
         }
         
-        /* App Container */
-        .app-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
+        .recent-activity {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
         }
         
-        @media (max-width: 900px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        /* Card Styling */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 12px;
+            background: #f8f9ff;
+            transition: var(--transition);
+        }
+        
+        .activity-item:hover {
+            transform: translateX(5px);
+            background: #f0f4ff;
+        }
+        
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            background: var(--gradient);
+            margin-right: 15px;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .activity-info {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .activity-amount {
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        /* Bill Payment */
         .card {
-            background: white;
+            background: var(--card-bg);
             border-radius: var(--card-radius);
             padding: 35px;
             box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
         }
         
         .card-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
         }
         
         .card-icon {
             width: 55px;
             height: 55px;
             background: var(--gradient);
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 22px;
         }
         
         .card-title {
@@ -241,17 +357,23 @@
             color: var(--dark);
         }
         
-        /* Form Styling */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: #444;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .input-group {
@@ -260,10 +382,10 @@
         
         select, input {
             width: 100%;
-            padding: 17px 20px;
+            padding: 15px 20px;
             border: 2px solid #e0e7ff;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: white;
             transition: var(--transition);
         }
@@ -280,107 +402,17 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--primary);
-            font-size: 20px;
+            font-size: 18px;
         }
         
-        /* Monetization Features */
-        .monetization-section {
-            background: white;
-            border-radius: var(--card-radius);
-            padding: 40px;
-            box-shadow: var(--shadow);
-            margin: 50px 0;
-            text-align: center;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 40px;
-            color: var(--dark);
-            text-align: center;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 5px;
-            background: var(--gradient);
-            border-radius: 5px;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .feature-card {
-            background: linear-gradient(135deg, #f8faff 0%, #f0f5ff 100%);
-            border-radius: var(--card-radius);
-            padding: 30px;
-            text-align: center;
-            transition: var(--transition);
-            border: 2px solid #e0e7ff;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.2);
-        }
-        
-        .feature-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
-        }
-        
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .feature-description {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-        }
-        
-        .price-tag {
-            background: var(--gradient);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-weight: 700;
+        .btn-lg {
+            padding: 18px 30px;
             font-size: 1.1rem;
-            display: inline-block;
+            width: 100%;
+            justify-content: center;
         }
         
-        /* AI Tip Box */
+        /* AI Tips */
         .ai-tip-box {
             background: linear-gradient(135deg, #e6f7ff 0%, #d1f0ff 100%);
             border-radius: var(--card-radius);
@@ -397,7 +429,7 @@
             top: -30px;
             right: -30px;
             font-size: 120px;
-            opacity: 0.05;
+            opacity: 0.1;
             transform: rotate(20deg);
         }
         
@@ -421,7 +453,7 @@
         }
         
         .ai-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--primary);
         }
@@ -429,9 +461,9 @@
         .tip-content {
             background: white;
             padding: 25px;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            line-height: 1.8;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            line-height: 1.7;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
             position: relative;
             z-index: 2;
@@ -445,382 +477,618 @@
             color: var(--primary);
         }
         
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 80px;
-            padding: 40px 0 20px;
-            color: #666;
-            font-size: 1rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            position: relative;
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
         
-        footer::before {
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid #e0e7ff;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.15);
+        }
+        
+        .feature-card::before {
             content: "";
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
+            left: 0;
+            width: 100%;
             height: 5px;
             background: var(--gradient);
-            border-radius: 5px;
         }
         
-        .footer-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 2rem;
+        .feature-icon {
+            font-size: 48px;
             margin-bottom: 20px;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: inline-block;
+            height: 60px;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-            }
-            
-            .card {
-                padding: 25px;
-            }
-        }
-        
-        /* Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Payment Modal */
-        .payment-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: var(--card-radius);
-            width: 90%;
-            max-width: 500px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: #999;
-            transition: var(--transition);
-        }
-        
-        .close-modal:hover {
-            color: var(--accent);
-        }
-        
-        .modal-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-        
-        .modal-title {
-            font-size: 2rem;
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
             margin-bottom: 15px;
             color: var(--dark);
         }
         
-        .modal-message {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            color: #555;
+        .feature-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        
+        .price-tag {
+            background: var(--gradient);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 10px;
+            }
+            
+            .logo-text, .nav-link span, .sidebar-footer {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 0;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+            }
+            
+            .nav-links {
+                flex-direction: row;
+                gap: 5px;
+            }
+            
+            .nav-link {
+                padding: 10px;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 25px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                </div>
-                <div class="logo-text">BillPal NG</div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-file-invoice-dollar"></i>
             </div>
-            <div class="nav-buttons">
-                <button class="nav-btn login-btn">Log In</button>
-                <button class="nav-btn signup-btn">Sign Up</button>
-            </div>
-        </header>
+            <div class="logo-text">BillPal</div>
+        </div>
         
-        <div class="hero">
-            <h1>Automate Your Bills, Multiply Your Savings</h1>
-            <p>Nigeria's smartest bill management platform with built-in revenue opportunities</p>
-            <div class="hero-buttons">
-                <button class="btn primary-btn"><i class="fas fa-play"></i> Watch Demo</button>
-                <button class="btn secondary-btn"><i class="fas fa-star"></i> Go Premium</button>
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-tab="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-link" data-tab="pay">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Pay Bills</span>
+            </a>
+            <a href="#" class="nav-link" data-tab="ai">
+                <i class="fas fa-robot"></i>
+                <span>Savings AI</span>
+            </a>
+            <a href="#" class="nav-link" data-tab="revenue">
+                <i class="fas fa-chart-line"></i>
+                <span>Revenue</span>
+            </a>
+            <a href="#" class="nav-link" data-tab="global">
+                <i class="fas fa-globe"></i>
+                <span>Global</span>
+            </a>
+            <a href="#" class="nav-link" data-tab="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <span>Global BillPal &copy; 2023</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="header-title">Dashboard Overview</h1>
+            <div class="header-actions">
+                <button class="btn btn-outline">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    <span>New Payment</span>
+                </button>
             </div>
         </div>
         
-        <div class="app-container">
-            <div class="card floating">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Savings</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">$2,458</div>
+                    <div class="stat-change">+12.5% this month</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Upcoming Bills</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">$1,240</div>
+                    <div class="stat-change">Due in 7 days</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Revenue Earned</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">$185</div>
+                    <div class="stat-change">+$24 this month</div>
+                </div>
+            </div>
+            
+            <div class="recent-activity">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Recent Activity
+                </h2>
+                
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Electricity Payment</div>
+                            <div class="activity-info">Completed • Aug 15, 2023</div>
+                        </div>
+                        <div class="activity-amount">-$125</div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Streaming Service</div>
+                            <div class="activity-info">Completed • Aug 12, 2023</div>
+                        </div>
+                        <div class="activity-amount">-$24.99</div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Referral Earnings</div>
+                            <div class="activity-info">Received • Aug 10, 2023</div>
+                        </div>
+                        <div class="activity-amount">+$12.50</div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Rent Payment</div>
+                            <div class="activity-info">Scheduled • Aug 28, 2023</div>
+                        </div>
+                        <div class="activity-amount">-$1,200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pay Bills Tab -->
+        <div id="pay" class="tab-content">
+            <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
-                    <h2 class="card-title">Bill Payment Center</h2>
+                    <h2 class="card-title">Pay a Bill</h2>
                 </div>
                 
                 <form id="billForm">
-                    <div class="form-group">
-                        <label for="bill-type">Bill Type</label>
-                        <div class="input-group">
-                            <select id="bill-type" required>
-                                <option value="">Select bill type</option>
-                                <option value="electricity">Electricity (NEPA)</option>
-                                <option value="dstv">DSTV</option>
-                                <option value="internet">Internet</option>
-                                <option value="rent">Rent</option>
-                                <option value="water">Water</option>
-                                <option value="school-fees">School Fees</option>
-                                <option value="tax">Tax Payment</option>
-                            </select>
-                            <div class="input-icon">
-                                <i class="fas fa-list"></i>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="bill-type">Bill Type</label>
+                            <div class="input-group">
+                                <select id="bill-type" required>
+                                    <option value="">Select bill type</option>
+                                    <option value="electricity">Electricity</option>
+                                    <option value="internet">Internet</option>
+                                    <option value="streaming">Streaming Service</option>
+                                    <option value="rent">Rent/Mortgage</option>
+                                    <option value="water">Water</option>
+                                    <option value="insurance">Insurance</option>
+                                    <option value="tax">Tax Payment</option>
+                                </select>
+                                <div class="input-icon">
+                                    <i class="fas fa-list"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="amount">Amount ($)</label>
+                            <div class="input-group">
+                                <input type="number" id="amount" placeholder="Enter amount" required>
+                                <div class="input-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="due-date">Due Date</label>
+                            <div class="input-group">
+                                <input type="date" id="due-date" required>
+                                <div class="input-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <div class="input-group">
+                                <select id="country" required>
+                                    <option value="">Select country</option>
+                                    <option value="us">United States</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="ca">Canada</option>
+                                    <option value="au">Australia</option>
+                                    <option value="de">Germany</option>
+                                    <option value="fr">France</option>
+                                    <option value="ng">Nigeria</option>
+                                    <option value="sa">South Africa</option>
+                                </select>
+                                <div class="input-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="amount">Amount (₦)</label>
-                        <div class="input-group">
-                            <input type="number" id="amount" placeholder="Enter amount" required>
-                            <div class="input-icon">
-                                <i class="fas fa-naira-sign"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="due-date">Due Date</label>
-                        <div class="input-group">
-                            <input type="date" id="due-date" required>
-                            <div class="input-icon">
-                                <i class="fas fa-calendar"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button type="button" id="pay-btn" class="btn primary-btn">
-                        <i class="fas fa-lock"></i> Pay Securely with Paystack
+                    <button type="button" id="pay-btn" class="btn btn-primary btn-lg">
+                        <i class="fas fa-lock"></i> Pay Securely
                     </button>
                 </form>
+            </div>
+            
+            <div class="ai-tip-box">
+                <div class="ai-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="ai-title">AI-Powered Savings Tip</h3>
+                </div>
                 
-                <div class="ai-tip-box">
-                    <div class="ai-header">
-                        <div class="ai-icon">
-                            <i class="fas fa-robot"></i>
+                <div class="tip-content">
+                    <p><strong>💡 Electricity Optimization:</strong> Our AI analysis shows you can save $120/year by shifting heavy appliance usage to off-peak hours.</p>
+                    <p><strong>💰 Subscription Review:</strong> You have 3 streaming subscriptions. Consolidating to one premium service could save $28/month.</p>
+                    <p><strong>📈 Rent Strategy:</strong> Negotiate a 5% discount by paying quarterly instead of monthly - potential savings: $720/year.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Savings AI Tab -->
+        <div id="ai" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h2 class="card-title">Savings AI</h2>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
                         </div>
-                        <h3 class="ai-title">AI-Powered Savings Tip</h3>
+                        <h3 class="feature-title">Smart Savings</h3>
+                        <p class="feature-description">AI analyzes your bills to identify savings opportunities and optimizes payment schedules.</p>
+                        <div class="price-tag">Included</div>
                     </div>
                     
-                    <div class="tip-content">
-                        <p><strong>💡 Electricity Optimization:</strong> Our AI analysis shows you can save ₦8,400/year by shifting heavy appliance usage to off-peak hours (10PM-6AM).</p>
-                        <p><strong>💰 DSTV Recommendation:</strong> Switch to Compact Plus package to save ₦3,500/month without losing your favorite channels.</p>
-                        <p><strong>📈 Rent Strategy:</strong> Negotiate a 5% discount by paying 3 months upfront - potential savings: ₦45,000/year.</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3 class="feature-title">Spending Forecast</h3>
+                        <p class="feature-description">Predict future bills and optimize your spending patterns with machine learning.</p>
+                        <div class="price-tag">Premium</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3 class="feature-title">Bill Negotiation</h3>
+                        <p class="feature-description">Our proprietary AI negotiates better rates with providers on your behalf.</p>
+                        <div class="price-tag">Save 10-25%</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <h3 class="feature-title">Auto-Savings</h3>
+                        <p class="feature-description">Automatically save a percentage of every bill payment into your savings account.</p>
+                        <div class="price-tag">Build Wealth</div>
                     </div>
                 </div>
             </div>
             
+            <div class="ai-tip-box">
+                <div class="ai-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="ai-title">Financial Insights</h3>
+                </div>
+                
+                <div class="tip-content">
+                    <p><strong>📊 Current Analysis:</strong> You're spending $340/month on utilities. Our AI found you could save $68/month by switching providers and optimizing usage patterns.</p>
+                    <p><strong>📈 Forecast:</strong> Your upcoming seasonal bills will increase by 15% during winter months. Start setting aside $45/month now to prepare.</p>
+                    <p><strong>💡 Recommendation:</strong> Enable Auto-Savings to automatically save 5% of every bill payment. At your current rate, you'd save $204/year effortlessly.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Revenue Tab -->
+        <div id="revenue" class="tab-content">
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h2 class="card-title">Revenue Dashboard</h2>
+                    <h2 class="card-title">Earn Revenue</h2>
                 </div>
                 
-                <div class="monetization-section">
-                    <h3 class="section-title">Earn with BillPal NG</h3>
-                    <p>Leverage our proprietary features to generate income while managing your bills</p>
-                    
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-user-friends"></i>
-                            </div>
-                            <h3 class="feature-title">Referral Program</h3>
-                            <p class="feature-description">Earn 5% commission on every bill paid by friends you refer</p>
-                            <div class="price-tag">Earn ₦500+</div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-friends"></i>
                         </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h3 class="feature-title">Savings AI Pro</h3>
-                            <p class="feature-description">Premium AI that finds hidden savings opportunities in your bills</p>
-                            <div class="price-tag">₦1,500/mo</div>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-gem"></i>
-                            </div>
-                            <h3 class="feature-title">Negotiation Service</h3>
-                            <p class="feature-description">Let our experts negotiate better rates on your behalf</p>
-                            <div class="price-tag">Save 10-25%</div>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <h3 class="feature-title">Cashback Rewards</h3>
-                            <p class="feature-description">Earn up to 7% cashback on bill payments with premium</p>
-                            <div class="price-tag">Earn ₦</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="ai-tip-box">
-                    <div class="ai-header">
-                        <div class="ai-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <h3 class="ai-title">Income Opportunity</h3>
+                        <h3 class="feature-title">Referral Program</h3>
+                        <p class="feature-description">Earn 5% commission on every bill paid by friends you refer to BillPal.</p>
+                        <div class="price-tag">Earn $500+</div>
                     </div>
                     
-                    <div class="tip-content">
-                        <p><strong>🚀 Become a BillPal Agent:</strong> Earn commissions by helping others pay bills in your community. Average agents make ₦25,000/month part-time.</p>
-                        <p><strong>💼 Affiliate Program:</strong> Share your referral link and earn 5% on every transaction made by people you refer.</p>
-                        <p><strong>📊 Premium Membership:</strong> Unlock advanced features and cashback rewards for ₦1,500/month.</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="feature-title">Premium Membership</h3>
+                        <p class="feature-description">Unlock advanced features and cashback rewards for $9.99/month.</p>
+                        <div class="price-tag">$9.99/mo</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3 class="feature-title">Cashback Rewards</h3>
+                        <p class="feature-description">Earn up to 7% cashback on bill payments with premium membership.</p>
+                        <div class="price-tag">Earn $</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="feature-title">BillPal Agent</h3>
+                        <p class="feature-description">Become an agent and earn commissions helping others manage bills.</p>
+                        <div class="price-tag">$25K/year</div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="monetization-section">
-            <h2 class="section-title">Proprietary Innovations</h2>
-            <p>BillPal NG exclusive features that create earning opportunities</p>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-handshake"></i>
+            <div class="ai-tip-box">
+                <div class="ai-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-chart-bar"></i>
                     </div>
-                    <h3 class="feature-title">Bill Negotiation AI</h3>
-                    <p class="feature-description">Our proprietary AI negotiates better rates with providers on your behalf</p>
-                    <div class="price-tag">Save 10-25%</div>
+                    <h3 class="ai-title">Revenue Opportunities</h3>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-pie"></i>
-                    </div>
-                    <h3 class="feature-title">Savings Forecast</h3>
-                    <p class="feature-description">Predict future bills and optimize your spending patterns</p>
-                    <div class="price-tag">₦ Premium</div>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="feature-title">Group Payments</h3>
-                    <p class="feature-description">Split bills with roommates or family and earn referral points</p>
-                    <div class="price-tag">Earn ₦</div>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-piggy-bank"></i>
-                    </div>
-                    <h3 class="feature-title">Auto-Savings</h3>
-                    <p class="feature-description">Automatically save a percentage of every bill payment</p>
-                    <div class="price-tag">Build Wealth</div>
+                <div class="tip-content">
+                    <p><strong>🚀 Top Earning Potential:</strong> Our most successful agents earn over $2,500/month by helping businesses manage their corporate bills.</p>
+                    <p><strong>💼 Business Accounts:</strong> Earn 8% commission on business accounts you onboard. The average small business pays $1,200/month in bills.</p>
+                    <p><strong>📊 Affiliate Program:</strong> Share your referral link and earn 5% on every transaction made by people you refer for 12 months.</p>
                 </div>
             </div>
         </div>
         
-        <footer>
-            <div class="footer-logo">BillPal NG</div>
-            <p>Nigeria's Most Innovative Bill Management Platform</p>
-            <p>© 2023 BillPal NG. All rights reserved. | Start Earning Today!</p>
-        </footer>
-    </div>
-    
-    <!-- Payment Success Modal -->
-    <div class="payment-modal" id="payment-modal">
-        <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
-            <div class="modal-icon">
-                <i class="fas fa-check-circle"></i>
+        <!-- Global Tab -->
+        <div id="global" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h2 class="card-title">Global Payments</h2>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Currency Exchange</h3>
+                        <p class="feature-description">Pay bills in any currency with our competitive exchange rates.</p>
+                        <div class="price-tag">0.5% fee</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">International Security</h3>
+                        <p class="feature-description">Bank-level security for all your international transactions.</p>
+                        <div class="price-tag">Included</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Instant Payments</h3>
+                        <p class="feature-description">Pay bills internationally with same-day processing.</p>
+                        <div class="price-tag">$2.99 fee</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h3 class="feature-title">Global Cashback</h3>
+                        <p class="feature-description">Earn cashback on international bill payments.</p>
+                        <div class="price-tag">Up to 3%</div>
+                    </div>
+                </div>
             </div>
-            <h2 class="modal-title">Payment Successful!</h2>
-            <p class="modal-message" id="success-message">Your bill payment has been processed successfully.</p>
-            <p class="modal-message"><strong>Referral Earnings:</strong> Share your link to earn ₦500 on every friend's first payment!</p>
-            <button class="btn primary-btn" style="margin-top: 20px;">
-                <i class="fas fa-share-alt"></i> Share Referral Link
-            </button>
+            
+            <div class="ai-tip-box">
+                <div class="ai-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3 class="ai-title">Global Payment Insights</h3>
+                </div>
+                
+                <div class="tip-content">
+                    <p><strong>🌍 Currency Savings:</strong> Our AI can time currency exchanges to save you an average of 3.2% on international payments.</p>
+                    <p><strong>💼 Expat Services:</strong> Specialized tools for expatriates managing bills across multiple countries. Save up to 45% on international transfer fees.</p>
+                    <p><strong>📈 Global Trends:</strong> Our data shows users save an average of $320/year by consolidating international payments through BillPal Global.</p>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
-            const payButton = document.getElementById('pay-btn');
-            const paymentModal = document.getElementById('payment-modal');
-            const closeModal = document.getElementById('close-modal');
+            // Tab switching functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and tabs
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(tab => tab.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Update header title
+                    const headerTitle = document.querySelector('.header-title');
+                    headerTitle.textContent = this.querySelector('span').textContent;
+                });
+            });
             
             // Set minimum date to today for due date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('due-date').min = today;
             
-            // Close modal
-            closeModal.addEventListener('click', function() {
-                paymentModal.style.display = 'none';
-            });
-            
             // Payment functionality
+            const payButton = document.getElementById('pay-btn');
+            
             payButton.addEventListener('click', function() {
                 const billType = document.getElementById('bill-type').value;
                 const amount = document.getElementById('amount').value;
                 const dueDate = document.getElementById('due-date').value;
+                const country = document.getElementById('country').value;
                 
                 // Validate inputs
                 if (!billType) {
@@ -838,26 +1106,26 @@
                     return;
                 }
                 
+                if (!country) {
+                    alert('Please select a country');
+                    return;
+                }
+                
                 // Generate random transaction reference
                 const transactionRef = 'BILLPAL-' + Date.now();
                 
                 // Initialize Paystack
                 const paystack = PaystackPop.setup({
                     key: 'pk_test_1f759a668641f37cd1b315c1d9cfa5c01ec2f202',
-                    email: 'customer@billpal.ng',
+                    email: 'customer@billpal.com',
                     amount: parseFloat(amount) * 100,
-                    currency: 'NGN',
+                    currency: 'USD',
                     ref: transactionRef,
                     callback: function(response) {
-                        // Show payment success modal with revenue features
-                        document.getElementById('success-message').innerHTML = `
-                            Payment of <strong>₦${parseFloat(amount).toLocaleString()}</strong> for ${getBillName(billType)} was successful!<br>
-                            Reference: ${response.reference}
-                        `;
-                        paymentModal.style.display = 'flex';
+                        alert(`Payment complete! Reference: ${response.reference}`);
                         
                         // Track payment for revenue features
-                        trackPaymentForRevenue(billType, amount);
+                        trackPaymentForRevenue(billType, amount, country);
                     },
                     onClose: function() {
                         alert('Payment was cancelled');
@@ -867,37 +1135,16 @@
                 paystack.openIframe();
             });
             
-            // Helper function to get bill name
-            function getBillName(billType) {
-                const billNames = {
-                    'electricity': 'Electricity',
-                    'dstv': 'DSTV',
-                    'internet': 'Internet',
-                    'rent': 'Rent',
-                    'water': 'Water',
-                    'school-fees': 'School Fees',
-                    'tax': 'Tax Payment'
-                };
-                return billNames[billType] || billType;
-            }
-            
             // Track payment for revenue features
-            function trackPaymentForRevenue(billType, amount) {
+            function trackPaymentForRevenue(billType, amount, country) {
                 // In a real implementation, this would connect to your backend
-                // For this demo, we'll store in localStorage
-                const paymentData = {
+                console.log('Payment tracked for revenue:', {
                     type: billType,
                     amount: amount,
+                    country: country,
                     date: new Date().toISOString(),
                     earnings: calculateEarnings(amount)
-                };
-                
-                // Save to localStorage
-                const payments = JSON.parse(localStorage.getItem('billpal_payments') || [];
-                payments.push(paymentData);
-                localStorage.setItem('billpal_payments', JSON.stringify(payments));
-                
-                console.log('Payment tracked for revenue:', paymentData);
+                });
             }
             
             // Calculate potential earnings from payment
@@ -910,16 +1157,6 @@
                     referral: referralPotential.toFixed(2),
                     total: (cashback + referralPotential).toFixed(2)
                 };
-            }
-            
-            // Initialize with sample data
-            if (!localStorage.getItem('billpal_payments')) {
-                const samplePayments = [
-                    {type: 'electricity', amount: '12500', date: '2023-08-01', earnings: {cashback: '250', referral: '625', total: '875'}},
-                    {type: 'rent', amount: '150000', date: '2023-07-25', earnings: {cashback: '3000', referral: '7500', total: '10500'}},
-                    {type: 'dstv', amount: '18900', date: '2023-07-15', earnings: {cashback: '378', referral: '945', total: '1323'}}
-                ];
-                localStorage.setItem('billpal_payments', JSON.stringify(samplePayments));
             }
         });
     </script>
