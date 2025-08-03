@@ -48,6 +48,7 @@
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
+            z-index: 100;
         }
         
         .logo {
@@ -97,6 +98,7 @@
             color: #555;
             transition: var(--transition);
             text-decoration: none;
+            cursor: pointer;
         }
         
         .nav-link i {
@@ -174,9 +176,19 @@
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
         
+        .btn-success {
+            background: linear-gradient(135deg, #06d6a0 0%, #05c293 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(6, 214, 160, 0.3);
+        }
+        
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-success:hover {
+            box-shadow: 0 8px 20px rgba(6, 214, 160, 0.4);
         }
         
         /* Tab Content */
@@ -283,7 +295,7 @@
             padding: 15px;
             border-radius: 12px;
             background: #f8f9ff;
-            transition: var(--transition);
+            transition: var(--transition;
         }
         
         .activity-item:hover {
@@ -544,6 +556,94 @@
             display: inline-block;
         }
         
+        /* WhatsApp Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5);
+            z-index: 99;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.7);
+        }
+        
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--card-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            animation: modalAppear 0.4s ease;
+        }
+        
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .modal-message {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #555;
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
@@ -611,6 +711,11 @@
     </style>
 </head>
 <body>
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
@@ -641,10 +746,6 @@
                 <i class="fas fa-globe"></i>
                 <span>Global</span>
             </a>
-            <a href="#" class="nav-link" data-tab="settings">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
         </div>
         
         <div class="sidebar-footer">
@@ -662,7 +763,7 @@
                     <i class="fas fa-bell"></i>
                     <span>Notifications</span>
                 </button>
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" id="new-payment-btn">
                     <i class="fas fa-plus"></i>
                     <span>New Payment</span>
                 </button>
@@ -1050,6 +1151,23 @@
         </div>
     </div>
     
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="modal-title">Payment Successful!</h2>
+            <p class="modal-message" id="success-message">Your payment of <strong>$125.00</strong> for Electricity has been processed successfully.</p>
+            <p class="modal-message"><strong>Reference:</strong> BILLPAL-1691523123456</p>
+            <p class="modal-message"><strong>Cashback Earned:</strong> $2.50</p>
+            <button class="btn btn-success" style="margin-top: 20px; width: 100%;">
+                <i class="fas fa-share-alt"></i> Share Referral Link to Earn More
+            </button>
+        </div>
+    </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Tab switching functionality
@@ -1077,13 +1195,35 @@
                 });
             });
             
+            // New Payment button functionality
+            document.getElementById('new-payment-btn').addEventListener('click', function() {
+                // Switch to Pay Bills tab
+                navLinks.forEach(l => l.classList.remove('active'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                
+                document.querySelector('[data-tab="pay"]').classList.add('active');
+                document.getElementById('pay').classList.add('active');
+                
+                // Update header title
+                document.querySelector('.header-title').textContent = 'Pay Bills';
+            });
+            
             // Set minimum date to today for due date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('due-date').min = today;
             
             // Payment functionality
             const payButton = document.getElementById('pay-btn');
+            const paymentModal = document.getElementById('payment-modal');
+            const closeModal = document.getElementById('close-modal');
+            const successMessage = document.getElementById('success-message');
             
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                paymentModal.style.display = 'none';
+            });
+            
+            // Payment button click
             payButton.addEventListener('click', function() {
                 const billType = document.getElementById('bill-type').value;
                 const amount = document.getElementById('amount').value;
@@ -1122,10 +1262,16 @@
                     currency: 'USD',
                     ref: transactionRef,
                     callback: function(response) {
-                        alert(`Payment complete! Reference: ${response.reference}`);
+                        // Show payment success modal
+                        const billName = getBillName(billType);
+                        successMessage.innerHTML = `Your payment of <strong>$${parseFloat(amount).toLocaleString('en-US', {minimumFractionDigits: 2})}</strong> for ${billName} has been processed successfully.`;
+                        paymentModal.style.display = 'flex';
                         
-                        // Track payment for revenue features
+                        // Track payment for revenue
                         trackPaymentForRevenue(billType, amount, country);
+                        
+                        // Add to recent activity
+                        addToRecentActivity(billType, amount);
                     },
                     onClose: function() {
                         alert('Payment was cancelled');
@@ -1134,6 +1280,20 @@
                 
                 paystack.openIframe();
             });
+            
+            // Helper function to get bill name
+            function getBillName(billType) {
+                const billNames = {
+                    'electricity': 'Electricity',
+                    'internet': 'Internet',
+                    'streaming': 'Streaming Service',
+                    'rent': 'Rent/Mortgage',
+                    'water': 'Water',
+                    'insurance': 'Insurance',
+                    'tax': 'Tax Payment'
+                };
+                return billNames[billType] || billType;
+            }
             
             // Track payment for revenue features
             function trackPaymentForRevenue(billType, amount, country) {
@@ -1147,6 +1307,42 @@
                 });
             }
             
+            // Add to recent activity
+            function addToRecentActivity(billType, amount) {
+                const activityList = document.querySelector('.activity-list');
+                const billName = getBillName(billType);
+                
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">
+                        <i class="fas fa-${getBillIcon(billType)}"></i>
+                    </div>
+                    <div class="activity-details">
+                        <div class="activity-title">${billName} Payment</div>
+                        <div class="activity-info">Completed • ${new Date().toLocaleDateString()}</div>
+                    </div>
+                    <div class="activity-amount">-$${parseFloat(amount).toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+                `;
+                
+                // Add to top of list
+                activityList.insertBefore(activityItem, activityList.firstChild);
+            }
+            
+            // Get bill icon
+            function getBillIcon(billType) {
+                const icons = {
+                    'electricity': 'bolt',
+                    'internet': 'wifi',
+                    'streaming': 'tv',
+                    'rent': 'home',
+                    'water': 'tint',
+                    'insurance': 'shield-alt',
+                    'tax': 'file-invoice-dollar'
+                };
+                return icons[billType] || 'file-invoice';
+            }
+            
             // Calculate potential earnings from payment
             function calculateEarnings(amount) {
                 // Simple algorithm - in reality this would be more complex
@@ -1158,6 +1354,12 @@
                     total: (cashback + referralPotential).toFixed(2)
                 };
             }
+            
+            // Initialize with sample data
+            document.getElementById('bill-type').value = 'electricity';
+            document.getElementById('amount').value = '125.00';
+            document.getElementById('due-date').value = today;
+            document.getElementById('country').value = 'us';
         });
     </script>
 </body>
