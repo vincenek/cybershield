@@ -1,0 +1,22 @@
+{
+  "name": "cyber shield ",
+  "short_name": "cybershield",
+  "description": "Enterprise Client-Side Security Tools",
+  "start_url": "https://vincenek.github.io/cybershield/",
+  "display": "standalone",
+  "theme_color": "#0d6efd",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/PJTbYhGF/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.postimg.cc/tJpdWy0T/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
